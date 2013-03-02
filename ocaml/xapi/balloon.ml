@@ -44,6 +44,7 @@ let parse_proc_xen_balloon () =
 		List.map (fun key -> 
 					  let s = (Unixext.string_of_file (sysfs_stem ^ key)) in
 					  let stripped = Stringext.String.strip Stringext.String.isspace s in
-					  (key, Some (Int64.of_string stripped))) keys 
+					  (key, Some (Int64.of_string stripped))) keys
+					  (** (key, Some 1048576L)) keys **)
 			
 
