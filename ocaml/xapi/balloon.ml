@@ -42,7 +42,8 @@ let parse_proc_xen_balloon () =
 			_low_mem_balloon;
 			_high_mem_balloon] in
 		List.map (fun key -> 
-					  let s = (Unixext.string_of_file (sysfs_stem ^ key)) in
+					debug "XXXXX about to open file XXXXX %s" (sysfs_stem ^ key);
+					let s = (Unixext.string_of_file (sysfs_stem ^ key)) in
 					  let stripped = Stringext.String.strip Stringext.String.isspace s in
 					  (key, Some (Int64.of_string stripped))) keys
 					  (** (key, Some 1048576L)) keys **)
