@@ -37,6 +37,8 @@ let _mkfs = "/sbin/mkfs"
 let _mount = "/bin/mount"
 let _umount = "/bin/umount"
 let _ionice = "/usr/bin/ionice"
+(*let _vif_script = Filename.concat Fhs.libexecdir "setup-vif-rules"*)
+let _vif_script = "/etc/xen/scripts/vif-setup"
 
 let run cmd args =
 	debug "%s %s" cmd (String.concat " " args);
@@ -2035,11 +2037,11 @@ module VIF = struct
 
 				let domid = string_of_int device.frontend.domid in
 				let devid = string_of_int device.frontend.devid in
-                ignore (run (Filename.concat Fhs.libexecdir "setup-vif-rules") ["vif"; domid; devid; "filter"]);
+                ignore (run (_vif_script) ["vif"; domid; devid; "filter"]);
                 (* Update rules for the tap device if the VM has booted HVM with no PV drivers. *)
 				let di = Xenctrl.domain_getinfo xc device.frontend.domid in
 				if di.Xenctrl.hvm_guest
-				then ignore (run (Filename.concat Fhs.libexecdir "setup-vif-rules") ["tap"; domid; devid; "filter"])
+				then ignore (run (_vif_script) ["tap"; domid; devid; "filter"])
 			)
 
 	let get_state vm vif =

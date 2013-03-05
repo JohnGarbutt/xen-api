@@ -511,8 +511,8 @@ let resume_post ~xc ~xs domid =
 	let store_mfn_s = xs.Xs.read (dom_path ^ "/store/ring-ref") in
 	let store_mfn = Nativeint.of_string store_mfn_s in
 	let store_port = int_of_string (xs.Xs.read (dom_path ^ "/store/port")) in
-	debug "VM = %s; domid = %d; @introduceDomain" (Uuid.to_string uuid) domid;
-	xs.Xs.introduce domid store_mfn store_port
+	debug "VM = %s; domid = %d; @introduceDomain %nu %d" (Uuid.to_string uuid) domid store_mfn store_port
+	(*xs.Xs.introduce domid store_mfn store_port*)
 
 (* puts value in store after the domain build succeed *)
 let build_post ~xc ~xs ~vcpus ~static_max_mib ~target_mib domid
@@ -535,8 +535,8 @@ let build_post ~xc ~xs ~vcpus ~static_max_mib ~target_mib domid
 		let vm_path = xs.Xs.read (dom_path ^ "/vm") in
 		Xs.transaction xs (fun t -> t.Xst.writev vm_path vments)
 	);
-	debug "VM = %s; domid = %d; @introduceDomain" (Uuid.to_string uuid) domid;
-	xs.Xs.introduce domid store_mfn store_port
+	debug "VM = %s; domid = %d; @introduceDomain %nu %d" (Uuid.to_string uuid) domid store_mfn store_port (*;
+	xs.Xs.introduce domid store_mfn store_port*)
 
 (** build a linux type of domain *)
 let build_linux (task: Xenops_task.t) ~xc ~xs ~static_max_kib ~target_kib ~kernel ~cmdline ~ramdisk
